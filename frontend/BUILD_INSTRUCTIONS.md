@@ -10,6 +10,23 @@ Before building the APK, make sure you have:
 
 ---
 
+## ⚠️ CRITICAL: Project Structure
+
+Your project has this structure:
+```
+/superintendent/
+├── backend/        (Python FastAPI server)
+└── frontend/       (Expo React Native app) ← BUILD FROM HERE!
+    ├── package.json
+    ├── app.json
+    ├── eas.json
+    └── ... (all app code)
+```
+
+**IMPORTANT:** Always run build commands from the `/frontend` directory, NOT the root!
+
+---
+
 ## 🚀 Quick Start - Build APK with EAS
 
 ### Step 1: Install EAS CLI
@@ -20,12 +37,17 @@ Open your terminal/command prompt on your PC and run:
 npm install -g eas-cli
 ```
 
-### Step 2: Navigate to the Project
+### Step 2: Navigate to the Frontend Folder
 
-If you downloaded the project, navigate to the frontend folder:
+**This is crucial!** Navigate to the **frontend** folder:
 
 ```bash
 cd /path/to/superintendent/frontend
+```
+
+Or if you're in the root:
+```bash
+cd frontend
 ```
 
 ### Step 3: Login to Expo
