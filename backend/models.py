@@ -50,6 +50,7 @@ class ChatResponse(BaseModel):
     conversation_id: str
     model_used: Optional[str] = None
     personality: str
+    device_action: Optional[Dict[str, Any]] = None
     error: Optional[str] = None
 
 class PersonalityToggleRequest(BaseModel):
