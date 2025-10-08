@@ -249,7 +249,7 @@ class SuperIntendentTester:
         # Test OpenAI routing (default/conversation intent)
         try:
             payload = {
-                "message": "Tell me a funny joke about programming",
+                "message": "What is the meaning of life?",
                 "personality": "tharos"
             }
             response = self.session.post(f"{self.base_url}/chat", json=payload)
