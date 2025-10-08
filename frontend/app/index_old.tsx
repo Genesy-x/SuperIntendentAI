@@ -36,6 +36,7 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
+    // Auto-scroll to bottom when new messages arrive
     scrollViewRef.current?.scrollToEnd({ animated: true });
   }, [messages]);
 
@@ -59,6 +60,7 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       
+      {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <View style={[styles.statusIndicator, { backgroundColor: getPersonalityColor() }]} />
@@ -71,7 +73,10 @@ export default function Index() {
         </View>
         
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.iconButton} onPress={clearMessages}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={clearMessages}
+          >
             <Ionicons name="trash-outline" size={20} color={Colors.textSecondary} />
           </TouchableOpacity>
           
@@ -88,6 +93,7 @@ export default function Index() {
         </View>
       </View>
 
+      {/* Messages */}
       <KeyboardAvoidingView
         style={styles.chatContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -157,10 +163,15 @@ export default function Index() {
           )}
         </ScrollView>
 
+        {/* Input Area */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder={personality === 'superintendent' ? 'How may I assist you' : 'What is on your mind'}
+            placeholder={
+              personality === 'superintendent'
+                ? 'How may I assist you'
+                : 'What is on your mind'
+            }
             placeholderTextColor={Colors.textMuted}
             value={inputMessage}
             onChangeText={setInputMessage}
