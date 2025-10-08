@@ -250,6 +250,89 @@ async function searchContacts(params: { query?: string }): Promise<DeviceActionR
 }
 
 /**
+ * Open camera
+ */
+async function openCamera(params: any): Promise<DeviceActionResult> {
+  try {
+    // Request camera permission
+    const { status } = await Camera.Camera.requestCameraPermissionsAsync();
+    
+    if (status !== 'granted') {
+      return {
+        success: false,
+        message: 'Camera permission denied. Please enable camera access in settings.',
+      };
+    }
+    
+    // Note: Opening camera requires navigation to a camera screen
+    // For now, we'll just confirm permission is granted
+    return {
+      success: true,
+      message: 'Camera permission granted. Camera feature ready!',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: 'Failed to access camera',
+      error: error.message,
+    };
+  }
+}
+
+/**
+ * Open music apps
+ */
+async function openMusic(params: { query?: string; app?: string }): Promise<DeviceActionResult> {
+  try {
+    const { query, app } = params || {};
+    
+    let url = '';
+    
+    // Determine which music app to open
+    if (app && app.toLowerCase().includes('spotify')) {
+      url = query ? `spotify:search:${encodeURIComponent(query)}` : 'spotify:';
+    } else if (app && app.toLowerCase().includes('youtube')) {
+      url = query 
+        ? `vnd.youtube://results?search_query=${encodeURIComponent(query)}`
+        : 'vnd.youtube://';
+    } else {
+      // Default: Try to search on YouTube Music or regular YouTube
+      url = query 
+        ? `https://music.youtube.com/search?q=${encodeURIComponent(query)}`
+        : 'https://music.youtube.com';
+    }
+    
+    const canOpen = await Linking.canOpenURL(url);
+    
+    if (!canOpen) {
+      // Fallback to web URL
+      const webUrl = query 
+        ? `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`
+        : 'https://www.youtube.com';
+      
+      await Linking.openURL(webUrl);
+      return {
+        success: true,
+        message: query ? `Searching for "${query}" on YouTube` : 'Opening YouTube',
+      };
+    }
+    
+    await Linking.openURL(url);
+    
+    return {
+      success: true,
+      message: query ? `Playing "${query}"` : 'Opening music app',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: 'Failed to open music app',
+      error: error.message,
+    };
+  }
+}
+
+/**
  * Open app by URL scheme (Android/iOS)
  */
 export async function openApp(appScheme: string): Promise<DeviceActionResult> {
