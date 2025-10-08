@@ -169,8 +169,8 @@ export default function Index() {
             style={styles.input}
             placeholder={
               personality === 'superintendent'
-                ? 'How may I assist you?'
-                : 'What's on your mind?'
+                ? 'How may I assist you'
+                : 'What is on your mind'
             }
             placeholderTextColor={Colors.textMuted}
             value={inputMessage}
