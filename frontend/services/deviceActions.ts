@@ -6,7 +6,7 @@ import { Linking, Alert, Platform } from 'react-native';
 
 // Device action types
 export type DeviceAction = {
-  type: 'sms' | 'call' | 'contacts' | 'open_app' | 'none';
+  type: 'sms' | 'call' | 'contacts' | 'camera' | 'music' | 'open_app' | 'none';
   params?: any;
 };
 
