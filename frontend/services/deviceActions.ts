@@ -1,5 +1,7 @@
 import * as SMS from 'expo-sms';
 import * as Contacts from 'expo-contacts';
+import * as Camera from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 import { Linking, Alert, Platform } from 'react-native';
 
 // Device action types
