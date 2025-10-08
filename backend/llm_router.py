@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 # Initialize LLM clients
 openai_client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
-gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+gemini_model = genai.GenerativeModel('gemini-2.5-flash')
 
 class LLMRouter:
     """Routes tasks to appropriate LLM based on intent analysis"""
