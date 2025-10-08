@@ -91,15 +91,30 @@ export const useChatStore = create<ChatState>((set, get) => ({
         
         // Execute device action if present
         if (data.device_action && data.device_action.action !== 'none') {
-          console.log('Executing device action:', data.device_action);
-          const result = await executeDeviceAction(data.device_action as DeviceAction);
-          console.log('Device action result:', result);
+          console.log('🎯 Device action detected:', data.device_action);
           
-          // Optionally add feedback message about action result
-          if (!result.success && result.error) {
+          // Execute the action
+          try {
+            const result = await executeDeviceAction(data.device_action as DeviceAction);
+            console.log('✅ Device action result:', result);
+            
+            // Add feedback message about action result
+            const feedbackMessage: Message = {
+              role: 'assistant',
+              content: result.success 
+                ? `✅ ${result.message}` 
+                : `❌ ${result.message}${result.error ? ': ' + result.error : ''}`,
+              timestamp: new Date(),
+            };
+            
+            set(state => ({
+              messages: [...state.messages, feedbackMessage],
+            }));
+          } catch (error: any) {
+            console.error('❌ Device action error:', error);
             const errorMessage: Message = {
               role: 'assistant',
-              content: `Device action failed: ${result.message}`,
+              content: `❌ Device action failed: ${error.message}`,
               timestamp: new Date(),
             };
             set(state => ({
