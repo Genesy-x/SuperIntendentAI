@@ -139,6 +139,12 @@ export default function Index() {
                     {msg.model_used}
                   </Text>
                 )}
+                {msg.content.includes('✅') && (
+                  <Ionicons name="checkmark-circle" size={16} color={Colors.success} style={styles.actionIcon} />
+                )}
+                {msg.content.includes('❌') && (
+                  <Ionicons name="close-circle" size={16} color={Colors.error} style={styles.actionIcon} />
+                )}
               </View>
             ))
           )}
