@@ -65,6 +65,10 @@ async def chat(request: ChatRequest):
             for msg in conversation.messages[-5:]  # Last 5 messages
         ]
         
+        # Check for device actions
+        device_action = DeviceActionParser.parse_message(request.message)
+        logger.info(f"Device action detected: {device_action}")
+        
         # Route message to appropriate LLM
         result = await llm_router.route_message(
             message=request.message,
@@ -75,11 +79,21 @@ async def chat(request: ChatRequest):
         if not result['success']:
             raise HTTPException(status_code=500, detail=result.get('error', 'Unknown error'))
         
+        # If device action detected, enhance the response with action confirmation
+        ai_response = result['response']
+        if device_action['action'] != 'none':
+            action_msg = DeviceActionParser.generate_confirmation_message(
+                device_action, 
+                conversation.personality
+            )
+            if action_msg:
+                ai_response = action_msg + "\n\n" + ai_response
+        
         # Add user message and assistant response to conversation
         user_message = Message(role="user", content=request.message)
         assistant_message = Message(
             role="assistant",
-            content=result['response'],
+            content=ai_response,
             model_used=result['model_used']
         )
         
@@ -96,10 +110,11 @@ async def chat(request: ChatRequest):
         
         return ChatResponse(
             success=True,
-            response=result['response'],
+            response=ai_response,
             conversation_id=conversation.id,
             model_used=result['model_used'],
-            personality=conversation.personality
+            personality=conversation.personality,
+            device_action=device_action if device_action['action'] != 'none' else None
         )
         
     except Exception as e:
