@@ -88,6 +88,25 @@ export const useChatStore = create<ChatState>((set, get) => ({
         
         // Persist conversation ID
         await AsyncStorage.setItem('conversationId', data.conversation_id);
+        
+        // Execute device action if present
+        if (data.device_action && data.device_action.action !== 'none') {
+          console.log('Executing device action:', data.device_action);
+          const result = await executeDeviceAction(data.device_action as DeviceAction);
+          console.log('Device action result:', result);
+          
+          // Optionally add feedback message about action result
+          if (!result.success && result.error) {
+            const errorMessage: Message = {
+              role: 'assistant',
+              content: `Device action failed: ${result.message}`,
+              timestamp: new Date(),
+            };
+            set(state => ({
+              messages: [...state.messages, errorMessage],
+            }));
+          }
+        }
       }
     } catch (error: any) {
       console.error('Error sending message:', error);
