@@ -115,12 +115,12 @@ export default function Index() {
               <Text style={styles.emptyStateTitle}>
                 {personality === 'superintendent' 
                   ? 'SuperIntendent at your service' 
-                  : 'Yo, what's up?'}
+                  : 'Yo what is up'}
               </Text>
               <Text style={styles.emptyStateSubtitle}>
                 {personality === 'superintendent'
-                  ? 'How may I assist you today?'
-                  : 'Let's chat bro, I got you.'}
+                  ? 'How may I assist you today'
+                  : 'Lets chat bro I got you'}
               </Text>
             </View>
           ) : (
