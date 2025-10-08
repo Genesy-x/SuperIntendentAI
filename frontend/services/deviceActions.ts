@@ -99,6 +99,15 @@ export async function executeDeviceAction(action: DeviceAction): Promise<DeviceA
       case 'contacts':
         return await searchContacts(action.params);
       
+      case 'camera':
+        return await openCamera(action.params);
+      
+      case 'music':
+        return await openMusic(action.params);
+      
+      case 'open_app':
+        return await openApp(action.params?.url || action.params);
+      
       default:
         return {
           success: false,
