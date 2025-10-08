@@ -14,6 +14,7 @@ from models import (
     Memory, MemoryCreateRequest
 )
 from llm_router import llm_router
+from device_actions import DeviceActionParser
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
