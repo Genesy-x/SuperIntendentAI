@@ -13,6 +13,13 @@
     },
     "preview": {
       "distribution": "internal",
+      "cache": {
+        "disabled": false,
+        "clear": true
+      },
+      "env": {
+        "NODE_ENV": "production"
+      },
       "android": {
         "buildType": "apk"
       }
