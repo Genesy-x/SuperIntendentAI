@@ -1,21 +1,40 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "SuperIntendent",
+    "slug": "superintendent",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "frontend",
-    "userInterfaceStyle": "automatic",
+    "scheme": "superintendent",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.superintendent.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "SuperIntendent needs camera access to take photos.",
+        "NSMicrophoneUsageDescription": "SuperIntendent needs microphone access for audio features.",
+        "NSContactsUsageDescription": "SuperIntendent needs contacts access to help you communicate.",
+        "NSPhotoLibraryUsageDescription": "SuperIntendent needs photo library access to save images."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000"
+        "backgroundColor": "#0A0A0A"
       },
+      "package": "com.superintendent.app",
+      "permissions": [
+        "CAMERA",
+        "READ_CONTACTS",
+        "WRITE_CONTACTS",
+        "SEND_SMS",
+        "READ_SMS",
+        "CALL_PHONE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECORD_AUDIO"
+      ],
       "edgeToEdgeEnabled": true
     },
     "web": {
