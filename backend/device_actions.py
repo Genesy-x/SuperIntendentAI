@@ -21,19 +21,29 @@ class DeviceActionParser:
             phone_match = re.search(r'\d{10,}', message)
             phone_number = phone_match.group(0) if phone_match else None
             
-            # Extract contact name
-            name_match = re.search(r'(?:text|message|sms)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)', message)
+            # Extract contact name (case insensitive)
+            name_match = re.search(r'(?:text|message|sms)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)', message, re.IGNORECASE)
             contact_name = name_match.group(1) if name_match else None
             
             # Extract message content
             message_content = DeviceActionParser._extract_message_content(message)
             
+            # If we have a contact name or phone number, it's an SMS action
             if phone_number or contact_name:
                 return {
                     'action': 'sms',
                     'phone_number': phone_number,
                     'contact_name': contact_name,
-                    'message': message_content,
+                    'message': message_content or '',
+                    'needs_confirmation': True,
+                }
+            # Also detect SMS if "text" is followed by common keywords
+            elif any(word in message_lower for word in ['text mom', 'text dad', 'text my', 'text her', 'text him']):
+                return {
+                    'action': 'sms',
+                    'phone_number': None,
+                    'contact_name': 'contact',
+                    'message': message_content or '',
                     'needs_confirmation': True,
                 }
         
