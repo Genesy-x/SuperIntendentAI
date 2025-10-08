@@ -301,6 +301,9 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontStyle: 'italic',
   },
+  actionIcon: {
+    marginTop: 4,
+  },
   loadingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
