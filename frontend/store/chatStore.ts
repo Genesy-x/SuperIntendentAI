@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { executeDeviceAction, DeviceAction } from '../services/deviceActions';
 
 type Message = {
   role: 'user' | 'assistant';
